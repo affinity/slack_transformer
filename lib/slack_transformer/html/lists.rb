@@ -15,21 +15,40 @@ module SlackTransformer
         fragment.children.each do |child|
           case child.name
           when 'ul'
-            list = child.children.map do |c|
-              "• #{c.children.to_html}"
-            end
-
-            child.replace(list.join("\n"))
+            child.replace(indent_nested_list(child)))
           when 'ol'
-            list = child.children.map.with_index do |c, i|
-              "#{i + 1}. #{c.children.to_html}"
-            end
-
-            child.replace(list.join("\n"))
+            child.replace(indent_nested_number_list(child))
           end
         end
 
         fragment.to_html
+      end
+
+      def indent_nested_list(child, num_indent = 0)
+        child.children.map do |c|
+
+          case c.name
+          when 'li'
+            indent_nested_list(c, num_indent)
+          when 'ul'
+            indent_nested_list(c, num_indent += 1)
+          else
+            "#{"\t" * num_indent}• #{c.to_html}"
+          end
+        end.join("\n")
+      end
+
+      def indent_nested_number_list(child, num_indent = 0, index = 0)
+        child.children.map do |c|
+          case c.name
+          when 'li'
+            indent_nested_number_list(c, num_indent, index += 1)
+          when 'ol'
+            indent_nested_number_list(c, num_indent += 1, 0)
+          else
+            "#{"\t" * num_indent}#{index}. #{c.to_html}"
+          end
+        end.join("\n")
       end
     end
   end

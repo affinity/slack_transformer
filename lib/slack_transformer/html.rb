@@ -1,5 +1,6 @@
 require 'slack_transformer/html/bold'
 require 'slack_transformer/html/code'
+require 'slack_transformer/html/hyperlinks'
 require 'slack_transformer/html/italics'
 require 'slack_transformer/html/lists'
 require 'slack_transformer/html/preformatted'
@@ -10,12 +11,14 @@ module SlackTransformer
     attr_reader :input
 
     TRANSFORMERS = [
+      # Need to use the transformers using Nokogiri first before using gsub.
+      SlackTransformer::Html::Lists,
       SlackTransformer::Html::Bold,
       SlackTransformer::Html::Italics,
       SlackTransformer::Html::Strikethrough,
       SlackTransformer::Html::Code,
       SlackTransformer::Html::Preformatted,
-      SlackTransformer::Html::Lists
+      SlackTransformer::Html::Hyperlinks
     ]
 
     def initialize(input)
