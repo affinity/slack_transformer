@@ -9,8 +9,7 @@ module SlackTransformer
         @input = input
       end
 
-      def to_slack
-        # input.gsub(/<\/?p>/, '\n')
+      def to_slack        
         fragment = Nokogiri::HTML.fragment(input)
 
         fragment.children.each do |child|

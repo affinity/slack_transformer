@@ -1,6 +1,7 @@
 require 'slack_transformer/html/bold'
 require 'slack_transformer/html/code'
 require 'slack_transformer/html/hyperlinks'
+require 'slack_transformer/html/newline'
 require 'slack_transformer/html/italics'
 require 'slack_transformer/html/lists'
 require 'slack_transformer/html/preformatted'
@@ -18,7 +19,8 @@ module SlackTransformer
       SlackTransformer::Html::Strikethrough,
       SlackTransformer::Html::Code,
       SlackTransformer::Html::Preformatted,
-      SlackTransformer::Html::Hyperlinks
+      SlackTransformer::Html::Hyperlinks,
+      SlackTransformer::Html::Newline
     ]
 
     def initialize(input)
