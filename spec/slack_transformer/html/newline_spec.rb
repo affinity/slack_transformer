@@ -7,26 +7,26 @@ RSpec.describe SlackTransformer::Html::Newline do
     describe '#to_slack' do
      
       context 'when <br> tag exist' do
-        let(:input) { '<br> newline' }
+        let(:input) { '<br>newline' }
   
-        it 'just add a newline in the beginning' do
-          expect(transformation.to_slack).to eq("\n newline")
+        it 'just add a newline at the beginning' do
+          expect(transformation.to_slack).to eq("\nnewline")
         end
       end
 
       context 'when <br/> tag exist' do
-        let(:input) { '<br/> newline' }
+        let(:input) { '<br/>newline' }
   
-        it 'just add a newine in teh beginning' do
-          expect(transformation.to_slack).to eq("\n newline")
+        it 'just add a newline at the beginning' do
+          expect(transformation.to_slack).to eq("\nnewline")
         end
       end
 
       context 'when <br></br> tag exist' do
-        let(:input) { '<br> newline</br>' }
+        let(:input) { '<br>newline</br>' }
   
-        it 'just add a newine in teh beginning' do
-          expect(transformation.to_slack).to eq("\n newline")
+        it 'just add a newline at the beginning' do
+          expect(transformation.to_slack).to eq("\nnewline")
         end
       end
   
