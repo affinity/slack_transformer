@@ -13,7 +13,7 @@ module SlackTransformer
         fragment = Nokogiri::HTML.fragment(input)
 
         fragment.children.each do |child|
-          child.replace("\n") if child.name == 'br'       
+          child.replace("\n") if child.name == 'br'
         end
 
         fragment.to_html
