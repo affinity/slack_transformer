@@ -1,6 +1,8 @@
 require 'slack_transformer/html/bold'
 require 'slack_transformer/html/code'
 require 'slack_transformer/html/hyperlinks'
+require 'slack_transformer/html/newline'
+require 'slack_transformer/html/paragraph'
 require 'slack_transformer/html/italics'
 require 'slack_transformer/html/lists'
 require 'slack_transformer/html/preformatted'
@@ -12,6 +14,8 @@ module SlackTransformer
 
     TRANSFORMERS = [
       # Need to use the transformers using Nokogiri first before using gsub.
+      SlackTransformer::Html::Newline,
+      SlackTransformer::Html::Paragraph,
       SlackTransformer::Html::Lists,
       SlackTransformer::Html::Bold,
       SlackTransformer::Html::Italics,
