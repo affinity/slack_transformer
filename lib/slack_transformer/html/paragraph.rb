@@ -16,11 +16,8 @@ module SlackTransformer
         fragment.children.each do |child|
           if child.name == 'p' 
             
-            if previous.nil?
-              child.replace("#{child.children.to_html}")
-            else
-              child.replace("\n#{child.children.to_html}")
-            end
+            newline = previous.nil? ? "" : "\n"
+            child.replace("#{newline}#{child.children.to_html}")
 
             previous = child.children.empty? ? nil : 'p'
 
