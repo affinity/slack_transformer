@@ -13,13 +13,10 @@ module SlackTransformer
         fragment = Nokogiri::HTML.fragment(input)
         previous = nil
         fragment.children.each do |child|
-          if child.name == 'p' 
-            if previous.nil?
-              child.replace("#{child.children.to_html}")
-            else
-              child.replace("\n#{child.children.to_html}")
-            end
-            # We don't want to add a newline after the last paragraph tag if it's empty.
+          if child.name == 'p'
+            newline = previous.nil? ? "" : "\n"
+            child.replace("#{newline}#{child.children.to_html}")
+            # We don't want to add a newline after the last paragraph tag if it's empty.  
             previous = child.children.empty? ? nil : 'p'
           else
             current = child.name 
