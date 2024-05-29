@@ -2,9 +2,9 @@ require 'slack_transformer/html/paragraph'
 
 
 RSpec.describe SlackTransformer::Html::Paragraph do
-    let(:transformation) { described_class.new(input) }  
+    let(:transformation) { described_class.new(input) }
+    
     describe '#to_slack' do
-
       context '<p>Hello World</p>' do
         let(:input) { '<p>Hello World</p>' }
 
@@ -61,8 +61,6 @@ RSpec.describe SlackTransformer::Html::Paragraph do
         end
       end
 
-
-
       context '<p></p>Hello<p></p><p></p><p></p>World' do
         let(:input) { '<p></p>Hello<p></p><p></p><p></p>World' }
         
@@ -70,11 +68,6 @@ RSpec.describe SlackTransformer::Html::Paragraph do
           expect(transformation.to_slack).to eq("Hello\nWorld")
         end
       end
-
-
-      
-  
-     
     end
   end
   
