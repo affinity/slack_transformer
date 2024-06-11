@@ -5,27 +5,36 @@ module SlackTransformer
     class Paragraph
       attr_reader :input
 
+      P_TAG = 'p'
+
       def initialize(input)
         @input = input
       end
 
       def to_slack
         fragment = Nokogiri::HTML.fragment(input)
+        fragment = handle_p_tag(fragment)
+        fragment.to_html
+      end
+
+      def handle_p_tag(node)
         previous = nil
-        fragment.children.each do |child|
-          if child.name == 'p'
-            newline = previous.nil? ? "" : "\n"
-            child.replace("#{newline}#{child.children.to_html}")
-            # We don't want to add a newline after the last paragraph tag if it's empty.  
-            previous = child.children.empty? ? nil : 'p'
+
+        node.children.each do |child|
+          if child.name == P_TAG
+            # Only add new line in between p tags.
+            newline = previous == P_TAG ? "\n" : ""
+            child.replace("#{newline}#{handle_p_tag(child).children.to_html}")
+            previous = P_TAG
           else
-            current = child.name 
-            child.replace("\n#{child.to_html}") if previous == 'p'
+            current = child.name
+            newline = previous == P_TAG ? "\n" : ""
+            child.replace("#{newline}#{handle_p_tag(child).to_html}")
             previous = current
           end
         end
 
-        fragment.to_html
+        node
       end
     end
   end
