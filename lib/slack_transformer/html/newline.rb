@@ -16,7 +16,7 @@ module SlackTransformer
           child.replace("\n") if child.name == 'br'
         end
 
-        fragment.to_html
+        fragment.to_html(save_with: 0)
       end
     end
   end

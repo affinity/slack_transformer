@@ -14,7 +14,7 @@ module SlackTransformer
       def to_slack
         fragment = Nokogiri::HTML.fragment(input)
         fragment = handle_p_tag(fragment)
-        fragment.to_html
+        fragment.to_html(save_with: 0)
       end
 
       def handle_p_tag(node)

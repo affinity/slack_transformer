@@ -21,7 +21,7 @@ module SlackTransformer
           end
         end
 
-        fragment.to_html
+        fragment.to_html(save_with: 0)
       end
 
       def indent_nested_list(child, num_indent = 0)
