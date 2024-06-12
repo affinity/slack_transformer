@@ -24,12 +24,14 @@ module SlackTransformer
           if child.name == P_TAG
             # Only add new line in between p tags.
             newline = previous == P_TAG ? "\n" : ""
-            child.replace("#{newline}#{handle_p_tag(child).children.to_html}")
+            children_html = handle_p_tag(child).children.to_html(save_with: 0)
+            child.replace("#{newline}#{children_html}")
             previous = P_TAG
           else
             current = child.name
             newline = previous == P_TAG ? "\n" : ""
-            child.replace("#{newline}#{handle_p_tag(child).to_html}")
+            child_html = handle_p_tag(child).to_html(save_with: 0)
+            child.replace("#{newline}#{html}")
             previous = current
           end
         end
