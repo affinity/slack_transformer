@@ -26,7 +26,6 @@ module SlackTransformer
 
       def indent_nested_list(child, num_indent = 0)
         child.children.map do |c|
-
           case c.name
           when 'li'
             indent_nested_list(c, num_indent)

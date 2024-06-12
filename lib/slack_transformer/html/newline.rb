@@ -11,12 +11,18 @@ module SlackTransformer
 
       def to_slack
         fragment = Nokogiri::HTML.fragment(input)
-
-        fragment.children.each do |child|
-          child.replace("\n") if child.name == 'br'
-        end
+        fragment = replace_newline(fragment)
 
         fragment.to_html(save_with: 0)
+      end
+
+      def replace_newline(node)
+        node.children.each do |child|
+          child.replace("\n") if child.name == 'br'
+          replace_newline(child)
+        end
+
+        node
       end
     end
   end
