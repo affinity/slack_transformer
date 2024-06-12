@@ -33,7 +33,7 @@ module SlackTransformer
           when 'ul'
             indent_nested_list(c, num_indent += 1)
           else
-            "#{"\t" * num_indent}• #{c.to_html}"
+            "#{"\t" * num_indent}• #{c.to_html(save_with: 0)}"
           end
         end.join("\n")
       end
@@ -46,7 +46,7 @@ module SlackTransformer
           when 'ol'
             indent_nested_number_list(c, num_indent += 1, 0)
           else
-            "#{"\t" * num_indent}#{index}. #{c.to_html}"
+            "#{"\t" * num_indent}#{index}. #{c.to_html(save_with: 0)}"
           end
         end.join("\n")
       end

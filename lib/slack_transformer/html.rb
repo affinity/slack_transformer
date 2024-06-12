@@ -15,8 +15,8 @@ module SlackTransformer
     TRANSFORMERS = [
       # Need to use the transformers using Nokogiri first before using gsub.
       SlackTransformer::Html::Newline,
-      SlackTransformer::Html::Paragraph,
       SlackTransformer::Html::Lists,
+      SlackTransformer::Html::Paragraph,
       SlackTransformer::Html::Bold,
       SlackTransformer::Html::Italics,
       SlackTransformer::Html::Strikethrough,
