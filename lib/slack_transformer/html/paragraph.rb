@@ -31,7 +31,7 @@ module SlackTransformer
             current = child.name
             newline = previous == P_TAG ? "\n" : ""
             child_html = handle_p_tag(child).to_html(save_with: 0)
-            child.replace("#{newline}#{html}")
+            child.replace("#{newline}#{child_html}")
             previous = current
           end
         end
