@@ -13,6 +13,7 @@ module SlackTransformer
         fragment = Nokogiri::HTML.fragment(input)
         fragment = replace_newline(fragment)
 
+        # The save with option here ensures that we do not add additional newlines to the html.
         fragment.to_html(save_with: 0)
       end
 

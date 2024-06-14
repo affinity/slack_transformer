@@ -21,33 +21,48 @@ module SlackTransformer
           end
         end
 
+        # The save with option ensures that we do not add additional newlines to the html.
         fragment.to_html(save_with: 0)
       end
 
       def indent_nested_list(child, num_indent = 0)
+        previous = nil
         child.children.map do |c|
           case c.name
           when 'li'
-            indent_nested_list(c, num_indent)
+            prev = c.previous_sibling&.name
+            newline = prev == 'li' ? "\n" : ""
+            "#{newline}#{"\t" * num_indent}• #{indent_nested_list(c, num_indent)}"
           when 'ul'
-            indent_nested_list(c, num_indent += 1)
+            "\n#{indent_nested_list(c, num_indent + 1)}"
           else
-            "#{"\t" * num_indent}• #{c.to_html(save_with: 0)}"
+            if c.parent&.name == 'li'
+              # If elements within the list has any newlines, add tabs accordingly.
+              c.content=(c.content.split("\n").join("\n#{"\t" * num_indent}"))
+            end
+            c.to_html(save_with: 0)
           end
-        end.join("\n")
+        end.join
       end
 
-      def indent_nested_number_list(child, num_indent = 0, index = 0)
+      def indent_nested_number_list(child, num_indent = 0, index = 1)
+        previous = nil
         child.children.map do |c|
           case c.name
           when 'li'
-            indent_nested_number_list(c, num_indent, index += 1)
+            prev = c.previous_sibling&.name
+            newline = prev == 'li' ? "\n" : ""
+            "#{newline}#{"\t" * num_indent}#{index}. #{indent_nested_number_list(c, num_indent, index += 1)}"
           when 'ol'
-            indent_nested_number_list(c, num_indent += 1, 0)
+            "\n#{indent_nested_number_list(c, num_indent + 1, 1)}"
           else
-            "#{"\t" * num_indent}#{index}. #{c.to_html(save_with: 0)}"
+            if c.parent&.name == 'li'
+              # If elements within the list has any newlines, add tabs accordingly.
+              c.content=(c.content.split("\n").join("\n#{"\t" * num_indent}"))
+            end
+            c.to_html(save_with: 0)
           end
-        end.join("\n")
+        end.join
       end
     end
   end

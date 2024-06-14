@@ -21,6 +21,22 @@ RSpec.describe SlackTransformer::Html::Paragraph do
         end
       end
 
+      context 'Hello<p>World</p>Again' do
+        let(:input) { 'Hello<p>World</p>Again' }
+
+        it 'return World and Again on a newline' do
+          expect(transformation.to_slack).to eq("Hello\nWorld\nAgain")
+        end
+      end
+
+      context 'Hello<p>World</p>' do
+        let(:input) { 'Hello<p>World</p>' }
+
+        it 'return World on a newline' do
+          expect(transformation.to_slack).to eq("Hello\nWorld")
+        end
+      end
+
       context '<p>Hello</p>World' do
         let(:input) { '<p>Hello</p>World' }
 
@@ -58,6 +74,14 @@ RSpec.describe SlackTransformer::Html::Paragraph do
 
         it 'return World on a newline' do
           expect(transformation.to_slack).to eq("Hello\n<ul><li>Bullet</li></ul>")
+        end
+      end
+
+      context 'P tag in front of bullet point' do
+        let(:input) { "<p>Test</p>• Bullet 1\n\t• Nested Bullet <a>Link</a>" }
+
+        it 'Add newline before bullet' do
+          expect(transformation.to_slack).to eq("Test\n• Bullet 1\n\t• Nested Bullet <a>Link</a>")
         end
       end
     end
