@@ -84,5 +84,12 @@ RSpec.describe SlackTransformer::Html::Paragraph do
           expect(transformation.to_slack).to eq("Test\n• Bullet 1\n\t• Nested Bullet <a>Link</a>")
         end
       end
+
+      context 'Ignore empty content' do
+        let(:input) { "<p>Hello</p> <p>World</p>"}
+        it 'Only add one newline between' do
+          expect(transformation.to_slack).to eq("Hello \nWorld")
+        end
+      end
     end
   end

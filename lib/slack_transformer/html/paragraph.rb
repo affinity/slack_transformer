@@ -34,6 +34,9 @@ module SlackTransformer
             child.replace("#{newline}#{children_html}")
             previous = is_empty ? EMPTY_P_TAG : P_TAG
           else
+            # Do nothing if dealing with an empty child.
+            next if child.content.strip.empty?
+
             current = child.name
             # Only add new line if previous element is a p tag AND we are not within a list.
             newline = previous == P_TAG && parent.name != LI_TAG ? NEWLINE : EMPTY
